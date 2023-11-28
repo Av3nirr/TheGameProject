@@ -1,0 +1,101 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyd8oynrdlw6h"]
+
+[ext_resource type="Script" path="res://scripts/HUD.gd" id="1_w83cr"]
+[ext_resource type="FontFile" uid="uid://c86al1wqerfu" path="res://assets/fonts/Pixeled.ttf" id="2_usch7"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_w83cr")
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 176.0
+offset_top = 16.0
+offset_right = 316.0
+offset_bottom = 215.0
+theme_override_fonts/font = ExtResource("2_usch7")
+theme_override_font_sizes/font_size = 70
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -2.0
+offset_top = 448.0
+offset_right = -2.0
+offset_bottom = 706.0
+grow_horizontal = 2
+theme_override_constants/line_spacing = -63
+theme_override_fonts/font = ExtResource("2_usch7")
+theme_override_font_sizes/font_size = 45
+text = "Evite les ennemis"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="MessageTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="BestScoreLabel" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -124.0
+offset_top = 16.0
+offset_right = -25.0
+offset_bottom = 62.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_usch7")
+theme_override_font_sizes/font_size = 15
+text = "Meilleur: 0"
+
+[node name="LevelLabel" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 139.0
+offset_bottom = 62.0
+theme_override_fonts/font = ExtResource("2_usch7")
+theme_override_font_sizes/font_size = 15
+text = "Niveau: Facile"
+
+[node name="LevelMenu" type="MenuButton" parent="."]
+anchors_preset = -1
+anchor_left = 0.316667
+anchor_top = 0.436111
+anchor_right = 0.683333
+anchor_bottom = 0.563889
+offset_top = 62.0
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_usch7")
+theme_override_font_sizes/font_size = 30
+text = "Niveau"
+item_count = 3
+popup/item_0/text = "Facile"
+popup/item_0/id = 0
+popup/item_1/text = "Moyen"
+popup/item_1/id = 1
+popup/item_2/text = "Difficile"
+popup/item_2/id = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="StartButton" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_usch7")
+theme_override_font_sizes/font_size = 30
+text = "Démarrer"
+
+[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
