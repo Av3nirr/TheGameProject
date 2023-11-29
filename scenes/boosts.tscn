@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://cpdwl0f1dpaa3"]
+
+[ext_resource type="Script" path="res://scripts/boosts.gd" id="1_dvvd1"]
+[ext_resource type="Texture2D" uid="uid://6j8fbafstyhm" path="res://assets/art/bouclier.png" id="2_ev0li"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_itwf0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ev0li")
+}],
+"loop": true,
+"name": &"shield",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2rhsm"]
+radius = 27.0
+height = 56.0
+
+[node name="boosts" type="RigidBody2D"]
+position = Vector2(-56, 0)
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_dvvd1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_itwf0")
+animation = &"shield"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_2rhsm")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

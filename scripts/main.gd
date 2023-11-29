@@ -2,7 +2,7 @@ extends Node
 
 @export var mob_scene: PackedScene
 @export var boost_scene: PackedScene
-@export var levels = [[3.0, 2.7, 2.3, 2.0, 1.5, 1.0], [2.5, 2.0, 1.5, 1.0, 0.7], [2.0, 1.5, 1.0, 0.5, 0.3, 0.2]]
+@export var levels = [[3.0, 2.7, 2.3, 2.0, 1.5, 1.0, 10], [2.5, 2.0, 1.5, 1.0, 0.7, 15], [2.0, 1.5, 1.0, 0.5, 0.3, 0.2, 20]]
 
 var level
 var score
@@ -22,6 +22,7 @@ func game_over():
 	$GameOverSound.play()
 	$ScoreTimer.stop()
 	$MobTimer.stop()
+	$BoostTimer.stop()
 	$HUD.show_game_over()
 	if score > best_score:
 		best_score = score
@@ -39,12 +40,14 @@ func new_game():
 	
 func _on_start_timer_timeout():
 	$MobTimer.start()
+	$BoostTimer.start()
 	$ScoreTimer.start()
 
 
 func _on_score_timer_timeout():
-	level = $HUD.level_id
 	score += 1
+	level = $HUD.level_id
+	$BoostTimer.wait_time = levels[level][6]
 	if score == 10:
 		timer_default = levels[level][1]
 	elif score == 30:
@@ -55,7 +58,7 @@ func _on_score_timer_timeout():
 		timer_default = levels[level][4]
 	elif score > 80:
 		timer_default = levels[level][5]
-	print(timer_default)
+	print(levels[level][6])
 	$MobTimer.wait_time = timer_default
 	$HUD.update_score(score)
 
@@ -78,3 +81,18 @@ func _on_mob_timer_timeout():
 
 	
 	
+
+
+func _on_boost_timer_timeout():
+	var boost = boost_scene.instantiate()
+	var boost_spawn_location = get_node("MobsPath/MobSpawnLocation")
+	boost_spawn_location.progress_ratio = randf()
+	var boost_direction = boost_spawn_location.rotation + PI / 2;
+	boost.position = boost_spawn_location.position;
+	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
+	boost.linear_velocity = velocity.rotated(boost_direction)
+	add_child(boost)
+
+
+func _on_player_boost():
+	$boosts.queue_free()

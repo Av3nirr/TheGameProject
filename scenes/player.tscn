@@ -1,10 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://h8f2t53w2dnk"]
+[gd_scene load_steps=12 format=3 uid="uid://h8f2t53w2dnk"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_t48n8"]
 [ext_resource type="Texture2D" uid="uid://c8jg6pywppgu4" path="res://assets/art/playerGrey_up1.png" id="1_tl7ca"]
 [ext_resource type="Texture2D" uid="uid://dlo23mua5ehhc" path="res://assets/art/playerGrey_up2.png" id="2_dfbqp"]
 [ext_resource type="Texture2D" uid="uid://bgufrbhth1nmv" path="res://assets/art/playerGrey_walk1.png" id="3_hfwmt"]
+[ext_resource type="Texture2D" uid="uid://bjiprd438hjsr" path="res://assets/art/playerGrey_up1_shield.png" id="4_i74ec"]
 [ext_resource type="Texture2D" uid="uid://doool465qeph6" path="res://assets/art/playerGrey_walk2.png" id="4_pgeqa"]
+[ext_resource type="Texture2D" uid="uid://2brw7y0muy5a" path="res://assets/art/playerGrey_up2_shield.png" id="5_7urt1"]
+[ext_resource type="Texture2D" uid="uid://cx4sndlctkxcj" path="res://assets/art/playerGrey_walk1_shield.png" id="8_nngfj"]
+[ext_resource type="Texture2D" uid="uid://cufcl5gc3ra51" path="res://assets/art/playerGrey_walk2_shield.png" id="9_82kdl"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_l7wo1"]
 animations = [{
@@ -21,6 +25,17 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("4_i74ec")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_7urt1")
+}],
+"loop": true,
+"name": &"up_shield",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("3_hfwmt")
 }, {
 "duration": 1.0,
@@ -28,6 +43,17 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_nngfj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_82kdl")
+}],
+"loop": true,
+"name": &"walk_shield",
 "speed": 5.0
 }]
 
@@ -43,9 +69,13 @@ metadata/_edit_group_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_l7wo1")
-animation = &"up"
+animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_yjqnm")
 
+[node name="BoostTimer" type="Timer" parent="."]
+wait_time = 5.0
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="boost" from="." to="." method="_on_boost"]
